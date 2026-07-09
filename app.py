@@ -3,29 +3,35 @@ import numpy as np
 import joblib
 import os
 
-# 1. OTOMATISASI PATH (Anti-Error Direktori)
-# Mendapatkan lokasi folder absolut tempat app.py ini berada
+# 1. DETEKSI OTOMATIS SECARA MENDALAM (Recursive Smart Scan)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Menyusun beberapa kemungkinan jalur folder (mengantisipasi huruf besar/kecil & struktur folder)
-path_subfolder_caps = os.path.join(BASE_DIR, 'repoML1_KankerPayudara')
-path_subfolder_low = os.path.join(BASE_DIR, 'repoml1_kankerpayudara')
+def cari_file_otomatis(daftar_nama_kemungkinan):
+    """Fungsi untuk menyisir semua folder demi menemukan file model"""
+    for root, dirs, files in os.walk(BASE_DIR):
+        for f in files:
+            if f.strip() in daftar_nama_kemungkinan:
+                return os.path.join(root, f)
+    return None
 
-# Mencari di mana file scaler.pkl berada secara dinamis
-if os.path.exists(os.path.join(path_subfolder_caps, 'scaler.pkl')):
-    scaler_path = os.path.join(path_subfolder_caps, 'scaler.pkl')
-    model_path = os.path.join(path_subfolder_caps, 'model_ann.pkl')
-elif os.path.exists(os.path.join(path_subfolder_low, 'scaler.pkl')):
-    scaler_path = os.path.join(path_subfolder_low, 'scaler.pkl')
-    model_path = os.path.join(path_subfolder_low, 'model_ann.pkl')
-elif os.path.exists(os.path.join(BASE_DIR, 'scaler.pkl')):
-    scaler_path = os.path.join(BASE_DIR, 'scaler.pkl')
-    model_path = os.path.join(BASE_DIR, 'model_ann.pkl')
-else:
-    st.error(f"❌ File model (.pkl) tidak ditemukan di repositori! Lokasi saat ini: {BASE_DIR}")
+# Mencari file secara fleksibel (mengantisipasi jika file belum atau sudah di-rename)
+scaler_path = cari_file_otomatis(['scaler.pkl', 'scaler (1).pkl', 'scaler(1).pkl'])
+model_path = cari_file_otomatis(['model_ann.pkl', 'model_ann (1).pkl', 'model_ann(1).pkl'])
+
+# Validasi jika file benar-benar tidak ada sama sekali di seluruh repositori
+if not scaler_path or not model_path:
+    st.error("❌ Komponen model ML (.pkl) tidak ditemukan di repositori GitHub kamu!")
+    st.write("Berikut adalah daftar seluruh file yang terdeteksi di repositori kamu saat ini:")
+    
+    # Menampilkan daftar file asli untuk membantu troubleshooting
+    list_file = []
+    for root, dirs, files in os.walk(BASE_DIR):
+        for f in files:
+            list_file.append(os.path.relpath(os.path.join(root, f), BASE_DIR))
+    st.code("\n".join(list_file))
     st.stop()
 
-# 2. LOAD COMPONEN MODEL YANG SUDAH AMAN PATH-NYA
+# 2. LOAD COMPONEN MODEL YANG SUDAH BERHASIL DITEMUKAN
 scaler = joblib.load(scaler_path)
 model = joblib.load(model_path)
 

@@ -1,4 +1,5 @@
 # Klasifikasi Diagnosis Kanker Payudara - Machine Learning
+### ⚡ [KLIK DI SINI UNTUK MENCOBA LIVE DEMO APLIKASI]([ISI_DENGAN_LINK_STREAMLIT_KAMU](https://repoml1kankerpayudara-r7ifsedmptlznj6yaereqq.streamlit.app/))
 
 Projek ini merupakan pemenuhan tugas UTS Mata Kuliah Pembelajaran Mesin di Universitas Dian Nuswantoro (UDINUS). Projek ini berfokus pada klasifikasi tumor payudara (Malignant/Ganas vs Benign/Jinak) menggunakan karakteristik klinis sel hasil ekstraksi laboratorium.
 

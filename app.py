@@ -1,11 +1,35 @@
 import streamlit as st
 import numpy as np
 import joblib
+import os
 
-# Memuat komponen model dari dalam sub-folder repositori kamu
-scaler = joblib.load('repoML1_KankerPayudara/scaler.pkl')
-model = joblib.load('repoML1_KankerPayudara/model_ann.pkl')
+# 1. OTOMATISASI PATH (Anti-Error Direktori)
+# Mendapatkan lokasi folder absolut tempat app.py ini berada
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# Menyusun beberapa kemungkinan jalur folder (mengantisipasi huruf besar/kecil & struktur folder)
+path_subfolder_caps = os.path.join(BASE_DIR, 'repoML1_KankerPayudara')
+path_subfolder_low = os.path.join(BASE_DIR, 'repoml1_kankerpayudara')
+
+# Mencari di mana file scaler.pkl berada secara dinamis
+if os.path.exists(os.path.join(path_subfolder_caps, 'scaler.pkl')):
+    scaler_path = os.path.join(path_subfolder_caps, 'scaler.pkl')
+    model_path = os.path.join(path_subfolder_caps, 'model_ann.pkl')
+elif os.path.exists(os.path.join(path_subfolder_low, 'scaler.pkl')):
+    scaler_path = os.path.join(path_subfolder_low, 'scaler.pkl')
+    model_path = os.path.join(path_subfolder_low, 'model_ann.pkl')
+elif os.path.exists(os.path.join(BASE_DIR, 'scaler.pkl')):
+    scaler_path = os.path.join(BASE_DIR, 'scaler.pkl')
+    model_path = os.path.join(BASE_DIR, 'model_ann.pkl')
+else:
+    st.error(f"❌ File model (.pkl) tidak ditemukan di repositori! Lokasi saat ini: {BASE_DIR}")
+    st.stop()
+
+# 2. LOAD COMPONEN MODEL YANG SUDAH AMAN PATH-NYA
+scaler = joblib.load(scaler_path)
+model = joblib.load(model_path)
+
+# 3. ANTARMUKA APLIKASI WEB STREAMLIT
 st.title("🔬 Breast Cancer Diagnostic System (ANN)")
 st.write("Aplikasi cerdas penunjang keputusan klinis diagnosis kanker payudara.")
 
@@ -27,7 +51,7 @@ if st.button("Prediksi Hasil Diagnosis"):
     scaled_features = scaler.transform(features_array)
     # Prediksi kelas target menggunakan arsitektur jaringan saraf tiruan
     prediction = model.predict(scaled_features)
-
+    
     st.subheader("Hasil Analisis Sistem:")
     if prediction[0] == 1:
         st.error("🚨 HASIL PREDIKSI: MALIGNANT (GANAS) - Risiko Tinggi / Segera Rujuk!")

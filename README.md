@@ -1,30 +1,28 @@
-# Klasifikasi Diagnosis Kanker Payudara - Machine Learning
-### ⚡ [KLIK DI SINI UNTUK MENCOBA LIVE DEMO APLIKASI]([ISI_DENGAN_LINK_STREAMLIT_KAMU](https://repoml1kankerpayudara-r7ifsedmptlznj6yaereqq.streamlit.app/))
+# 🎗️ Aplikasi Klasifikasi Kanker Payudara (Multi-Page Streamlit App)
 
-Projek ini merupakan pemenuhan tugas UTS Mata Kuliah Pembelajaran Mesin di Universitas Dian Nuswantoro (UDINUS). Projek ini berfokus pada klasifikasi tumor payudara (Malignant/Ganas vs Benign/Jinak) menggunakan karakteristik klinis sel hasil ekstraksi laboratorium.
-
-## 📂 Struktur Repositori
-* `repoML1_KankerPayudara/Projek_Kanker_Payudara_ML.ipynb` : Skrip eksperimen utama (Google Colab).
-* `repoML1_KankerPayudara/model_ann.pkl` : File biner model terbaik (Artificial Neural Network).
-* `repoML1_KankerPayudara/model_dwknn.pkl` : File biner model pembanding (DWKNN).
-* `repoML1_KankerPayudara/scaler.pkl` : Objek standardisasi fitur (StandardScaler).
-* `repoML1_KankerPayudara/wdbc.data` & `.names` : Dataset Medis UCI.
-* `app.py` : Skrip antarmuka inferensi aplikasi web berbasis Streamlit.
-* `requirements.txt` : Daftar pustaka dependensi sistem.
-
-## 👥 Anggota Tim
-* **Nama:** Okan Salma
-* **NIM:** A11202416083
+Repositori ini berisi proyek akhir Machine Learning untuk mendeteksi/mengklasifikasikan kanker payudara (Malignant/Benign) menggunakan beberapa algoritma klasifikasi. Aplikasi ini dideploy menggunakan Streamlit Cloud.
 
 ## 📊 Dataset
-Dataset yang digunakan adalah **Breast Cancer Wisconsin (Diagnostic)** dari UCI Machine Learning Repository yang terdiri dari 569 sampel pasien dan 30 fitur klinis numerik.
+Proyek ini menggunakan **Breast Cancer Wisconsin (Diagnostic) Dataset** (`wdbc.data` & `wdbc.names`). Fitur data diekstraksi dari gambar digital *Fine Needle Aspirate* (FNA) dari massa payudara.
 
-## 🤖 Algoritma & Hasil Eksperimen
-Eksperimen dilakukan di Google Colab menggunakan teknik 5-Fold Cross Validation dengan hasil sebagai berikut:
-1. **Distance-Weighted KNN (DWKNN):** Rata-rata Akurasi 96.26%
-2. **Artificial Neural Network (ANN):** Rata-rata Akurasi 97.58% (Model Terbaik dengan Recall Data Uji tertinggi).
+## 🧠 Algoritma & Performa Model
+Eksperimen dilakukan menggunakan tiga algoritma utama dengan hasil sebagai berikut:
+* **XGBoost (Model Utama):** Akurasi ~XX% (Performa Terbaik)
+* **Artificial Neural Network (ANN):** Akurasi ~XX%
+* **DWKNN (Dual Weighted KNN):** Akurasi ~XX%
 
-## 🚀 Cara Menjalankan Aplikasi Web Secara Lokal
-1. Clone repositori ini:
-   ```bash
-   git clone [https://github.com/salmaokan1-commits/repoML1_KankerPayudara.git](https://github.com/salmaokan1-commits/repoML1_KankerPayudara.git)
+---
+
+## 📂 Struktur Repositori
+```text
+├── app.py                     # Script utama aplikasi Streamlit
+├── requirements.txt           # Dependensi library python
+├── README.md                  # Dokumentasi proyek
+├── .gitignore                 # Mengabaikan file sampah lokal
+├── Projek_Kanker_Payudara_ML.ipynb  # Notebook dokumentasi EDA & Modeling
+├── wdbc.data                  # Dataset mentah
+├── wdbc.names                 # Informasi atribut dataset
+├── scaler.pkl                 # Hasil penyeragaman skala (StandardScaler)
+├── model_xgb.pkl              # Binary model XGBoost
+├── model_ann.pkl              # Binary model ANN
+└── model_dwknn.pkl            # Binary model DWKNN
